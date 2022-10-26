@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // Level 1. Task 1
+      //  Адрес фида данных
+      let requestURL = "https://jsonplaceholder.typicode.com/users";
+      // Создаем объект обработчика запросов
+      var xhr = new XMLHttpRequest();
+      // Открываем страницу данных
+      xhr.open("GET", requestURL, true);
+      // По результу считывания данных начинаем их обработку
+      xhr.onload = function () {
+        // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+        var users = JSON.parse(xhr.responseText);
+        // Если удалось получить необходимые данные, то производим их обработку
+        if (xhr.readyState == 4 && xhr.status == "200") {
+          //   console.log(users);
+          console.log("Sorted usernames: ");
+          users
+            // Извлекаем из объектов массива users значения поля username
+            // и помещаем их обратно в этот же массив вместо этих объектов
+            .map((user) => user.username)
+            // затем сортируем значения username в алфавитном порядке
+            .sort()
+            // Отображаем полученную последовательность в консоль
+            .forEach((item) => {
+              console.log(item);
+            });
+        } else {
+          // Если произошла ошибка выводим то, что было получено
+          console.error(users);
+        }
+      };
+      xhr.send(null);
+    </script>
+  </head>
+  <body></body>
+</html>

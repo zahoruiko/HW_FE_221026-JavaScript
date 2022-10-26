@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
+      table {
+        border-spacing: 5px;
+        font-family: "Roboto Condensed", sans-serif;
+      }
+      td,
+      tr {
+        padding: 10px;
+        background-color: lightcyan;
+      }
+      tr,
+      th {
+        background-color: lightblue;
+        padding: 10px;
+        text-align: center;
+      }
+      .sortOrderButton {
+        border: 2px solid lightskyblue;
+        color: navy;
+        cursor: pointer;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+      }
+      #buttons-container {
+        margin-top: 20px;
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="buttons-container">
+      Сортировка по полю "username":
+      <span id="az-sort" class="sortOrderButton" onclick="usersInfo('AZ');"
+        >A..Z</span
+      >
+      <span id="za-sort" class="sortOrderButton" onclick="usersInfo('ZA');"
+        >Z..A</span
+      >
+    </div>
+
+    <div id="container"></div>
+
+    <script>
+      usersInfo("AZ");
+      function usersInfo(sortOrder) {
+        // Level 2. Task 1.
+        //  Адрес фида данных
+        let requestURL = "https://jsonplaceholder.typicode.com/users";
+        // Создаем объект обработчика запросов
+        var xhr = new XMLHttpRequest();
+        // Открываем страницу данных
+        xhr.open("GET", requestURL, true);
+        // По результу считывания данных начинаем их обработку
+        xhr.onload = function () {
+          // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+          var users = JSON.parse(xhr.responseText);
+          // Если удалось получить необходимые данные, то производим их обработку
+          if (xhr.readyState == 4 && xhr.status == "200") {
+            // Декларируем переменную для хранения отсортированного массива
+            let sortedUsers;
+            // Сортируем массив объектов в алфавитном порядке по полю username
+            // Изменяем порядок сортировки в зависимости от желания пользователя
+            if (sortOrder == "AZ") {
+              // Сортируем данные в порядке A-Z
+              sortedUsers = users.sort((a, b) =>
+                a.username > b.username ? 1 : -1
+              );
+              // Устанавливаем оформление активной и пассивной кнопок для управления режимом сортировки данных
+              document.getElementById("az-sort").style.background =
+                "lightskyblue"; // активная кнопка
+              document.getElementById("za-sort").style.background = "white"; // пассивная кнопка
+            } else {
+              // sortOrder == "ZA"
+              // Сортируем данные в порядке Z-A
+              sortedUsers = users.sort((a, b) =>
+                a.username > b.username ? -1 : 1
+              );
+              // Устанавливаем оформление активной и пассивной кнопок для управления режимом сортировки данных
+              document.getElementById("za-sort").style.background =
+                "lightskyblue"; // активная кнопка
+              document.getElementById("az-sort").style.background = "white"; // пассивная кнопка
+            }
+            // Добавляем открывающий тег таблицы и строку для заголовка колонок таблицы
+            let htmlTable = `<table border = "0">
+                                  <tr>
+                                    <th>id</th>
+                                    <th>name</th>
+                                    <th>username</th>
+                                    <th>email</th>
+                                    <th>address</th>
+                                    <th>phone</th>
+                                    <th>website</th>
+                                    <th>company</th>
+                                  </tr>`;
+            // Добавляем строки с данными таблицы
+            sortedUsers.forEach((user) => {
+              htmlTable += `<tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.address}</td>
+                                    <td>${user.phone}</td>
+                                    <td>${user.website}</td>
+                                    <td>${user.company}</td>
+                                  </tr>`;
+              console.log(user);
+            });
+            // Добавляем закрывающий тег таблицы
+            htmlTable += "</table>";
+            // Вставляем html-код таблицы в контейнер
+            document.getElementById("container").innerHTML = htmlTable;
+          } else {
+            // Если произошла ошибка выводим то, что было получено
+            console.error(users);
+          }
+        };
+        xhr.send(null);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // Level 1. Task 2
+      //  Адрес фида данных
+      let requestURL = "https://jsonplaceholder.typicode.com/posts";
+      // Создаем объект обработчика запросов
+      xhr = new XMLHttpRequest();
+      // Открываем страницу данных
+      xhr.open("GET", requestURL, true);
+      // По результу считывания данных начинаем их обработку
+      xhr.onload = function () {
+        // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+        var posts = JSON.parse(xhr.responseText);
+        // Если удалось получить необходимые данные, то производим их обработку
+        if (xhr.readyState == 4 && xhr.status == "200") {
+          // Преобразовываем массив объектов сообщений в массив идентификаторов пользователя
+          let data = posts.map((post) => post.userId);
+          // Объявляем Map (ассоциативный массив) для сохранения результатов
+          let post_count = new Map();
+          // Объявляем переменную вне цикла, чтобы не объявлять ее на каждой итерации внутри него
+          let itemAmountInMap;
+          // Производим подсчет повторений
+          data.forEach(function (item, index, arr) {
+            // Запрашиваем в количество повторений элемента в post_count
+            itemAmountInMap = post_count.get(item);
+            // Если entry с таким ключем уже есть
+            if (itemAmountInMap != undefined) {
+              // значит увеличиваем значение для этого ключа
+              post_count.set(item, ++itemAmountInMap);
+            } else {
+              // Если entry с таким ключем еще нет, тогда добавляем 
+              post_count.set(item, 1);
+            }
+          });
+          console.log("Количества постов пользователей = ", post_count);
+        } else {
+          // Если произошла ошибка выводим то, что было получено
+          console.error(posts);
+        }
+      };
+      xhr.send(null);
+    </script>
+  </head>
+  <body></body>
+</html>
