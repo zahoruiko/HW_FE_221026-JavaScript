@@ -11,12 +11,11 @@
         border-spacing: 5px;
         font-family: "Roboto Condensed", sans-serif;
       }
-      td,
-      tr {
+      td {
         padding: 10px;
         background-color: lightcyan;
+        text-align: center;
       }
-      tr,
       th {
         background-color: lightblue;
         padding: 10px;
@@ -39,12 +38,8 @@
   <body>
     <div id="buttons-container">
       Сортировка по полю "username":
-      <span id="az-sort" class="sortOrderButton" onclick="usersInfo('AZ');"
-        >A..Z</span
-      >
-      <span id="za-sort" class="sortOrderButton" onclick="usersInfo('ZA');"
-        >Z..A</span
-      >
+      <span id="az-sort" class="sortOrderButton" onclick="usersInfo('AZ');">A..Z</span>
+      <span id="za-sort" class="sortOrderButton" onclick="usersInfo('ZA');">Z..A</span>
     </div>
 
     <div id="container"></div>
