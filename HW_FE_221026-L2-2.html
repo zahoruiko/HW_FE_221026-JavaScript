@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Level 2. Task 2</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
       body,
@@ -38,7 +38,7 @@
   </head>
   <body>
     <div id="buttons-container">
-      Сортировка по полю "User id":
+      Sorting by "User id" field:
       <span id="az-sort" class="sortOrderButton" onclick="userPosts('0-10');">0..10</span>
       <span id="za-sort" class="sortOrderButton" onclick="userPosts('10-0');">10..0</span>
     </div>
@@ -49,69 +49,69 @@
       userPosts("0-10");
       function userPosts(sortOrder) {
         // Level 2. Task 2
-        //  Адрес фида данных
+        //  Data feed address
         let requestURL = "https://jsonplaceholder.typicode.com/posts";
-        // Создаем объект обработчика запросов
+        // Creating a request handler object
         xhr = new XMLHttpRequest();
-        // Открываем страницу данных
+        // Opening the data page
         xhr.open("GET", requestURL, true);
-        // По результу считывания данных начинаем их обработку
+        // According to the result of reading the data, we begin processing them
         xhr.onload = function () {
-          // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+          // Converting the received data from JSON into a form suitable for processing (an array of objects)
           var posts = JSON.parse(xhr.responseText);
-          // Если удалось получить необходимые данные, то производим их обработку
+          // If it was possible to get the necessary data, then we process them
           if (xhr.readyState == 4 && xhr.status == "200") {
             //   console.log(posts);
-            // Преобразовываем массив объектов сообщений в массив идентификаторов пользователя
+            // Converting an array of message objects into an array of user IDs
             let data = posts.map((post) => post.userId);
-            // Объявляем Map (как бы ассоциативный массив) для сохранения результатов
+            // Declaring a Map (as if an associative array) to save the results
             let post_count = new Map();
-            // Объявляем переменную вне цикла, чтобы не объявлять ее на каждой итерации внутри него
+            // Declaring a variable outside the loop, so as not to declare it at each iteration inside it
             let itemAmountInMap;
-            // Производим подсчет повторений
+            // We count repetitions
             data.forEach(function (item, index, arr) {
-              // Запрашиваем в количество повторений элемента в post_count
+              // Requesting in the number of repetitions of the element in post_count
               itemAmountInMap = post_count.get(item);
-              // Если entry с таким ключем уже есть
+              // If there is already an entry with such a key
               if (itemAmountInMap != undefined) {
-                // значит увеличиваем значение для этого ключа
+                // so we increase the value for this key
                 post_count.set(item, ++itemAmountInMap);
               } else {
-                // Если entry с таким ключем еще нет, тогда добавляем
+                // If there is no entry with such a key yet, then add
                 post_count.set(item, 1);
               }
             });
-            // Декларируем переменную для хранения отсортированного массива
+            // Declaring a variable to store the sorted array
             let post_count_Array;
-            // Сортируем данные в зависимости от желания пользователя по полю Used Id
+            // We sort the data depending on the user's desire by the Used Id field
             if (sortOrder == "0-10") {
-              // Прямой вывод данных
+              // Direct data output
               post_count_Array = Array.from(post_count);
-              // Определяем стили для кнопок выбора режима сортировки
+              // Defining styles for sorting mode selection buttons
               document.getElementById("az-sort").style.background =
-                "lightskyblue"; // активная кнопка
-              document.getElementById("za-sort").style.background = "white"; // пассивная кнопка
+                "lightskyblue"; // active button
+              document.getElementById("za-sort").style.background = "white"; // passive button
             } else {
-              // Вывод в обратном порядке
+              // Output in reverse order
               post_count_Array = Array.from(post_count).reverse();
-              // Определяем стили для кнопок выбора режима сортировки
+              // Defining styles for sorting mode selection buttons
               document.getElementById("za-sort").style.background =
-                "lightskyblue"; // активная кнопка
+                "lightskyblue"; // active button
               document.getElementById("az-sort").style.background = "white"; // пассивная кнопка
             }
-            // Формируем заголовок html-таблицы
+            // Forming the html table header
             let htmlTable =
               "<table border = '0'><tr><th>Used Id</th><th>Messages<br>amount</th></tr>";
-            // Выводим строки таблицы
+            // Output the rows of the table
             post_count_Array.forEach(([key, value]) => {
               htmlTable += `<tr><td>${key}</td><td>${value}</td></tr>`;
             });
-            // Добавляем закрывающий тег таблицы
+            // Adding the closing tag of the table
             htmlTable += "</table>";
-            // Вставляем html-код таблицы в контейнер
+            // Inserting the html code of the table into the container
             document.getElementById("container").innerHTML = htmlTable;
           } else {
-            // Если произошла ошибка выводим то, что было получено
+            // If an error occurred, we output what was received
             console.error(posts);
           }
         };
