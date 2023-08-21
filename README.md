@@ -1,3 +1,3 @@
-# HW_FE_221026-JavaScript
+# JavaScript: XMLHttpRequest, JSON, array sort
 
-- [Link to the result](https://zahoruiko.github.io/HW_FE_221026-JavaScript/)
+- [Demo page](https://zahoruiko.github.io/HW_FE_221026-JavaScript/)
