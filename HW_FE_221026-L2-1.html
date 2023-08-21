@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Level 2. Task 1.</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap");
       table {
@@ -37,7 +37,7 @@
   </head>
   <body>
     <div id="buttons-container">
-      Сортировка по полю "username":
+      Sorting by "username" field:
       <span id="az-sort" class="sortOrderButton" onclick="usersInfo('AZ');">A..Z</span>
       <span id="za-sort" class="sortOrderButton" onclick="usersInfo('ZA');">Z..A</span>
     </div>
@@ -48,55 +48,55 @@
       usersInfo("AZ");
       function usersInfo(sortOrder) {
         // Level 2. Task 1.
-        //  Адрес фида данных
+        //  Data feed address
         let requestURL = "https://jsonplaceholder.typicode.com/users";
-        // Создаем объект обработчика запросов
+        // Creating a request handler object
         var xhr = new XMLHttpRequest();
-        // Открываем страницу данных
+        // Opening the data page
         xhr.open("GET", requestURL, true);
-        // По результу считывания данных начинаем их обработку
+        // According to the result of reading the data, we begin processing them
         xhr.onload = function () {
-          // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+          // Converting the received data from JSON into a form suitable for processing (an array of objects)
           var users = JSON.parse(xhr.responseText);
-          // Если удалось получить необходимые данные, то производим их обработку
+          // If it was possible to get the necessary data, then we process them
           if (xhr.readyState == 4 && xhr.status == "200") {
-            // Декларируем переменную для хранения отсортированного массива
+            // Declaring a variable to store the sorted array
             let sortedUsers;
-            // Сортируем массив объектов в алфавитном порядке по полю username
-            // Изменяем порядок сортировки в зависимости от желания пользователя
+            // Sorting the array of objects in alphabetical order by the username field
+            // We change the sorting order depending on the user's desire
             if (sortOrder == "AZ") {
-              // Сортируем данные в порядке A-Z
+              // Sorting the data in order A-Z
               sortedUsers = users.sort((a, b) =>
                 a.username > b.username ? 1 : -1
               );
-              // Устанавливаем оформление активной и пассивной кнопок для управления режимом сортировки данных
+              // We set the design of the active and passive buttons to control the data sorting mode
               document.getElementById("az-sort").style.background =
-                "lightskyblue"; // активная кнопка
-              document.getElementById("za-sort").style.background = "white"; // пассивная кнопка
+                "lightskyblue"; // active button
+              document.getElementById("za-sort").style.background = "white"; // passive button
             } else {
               // sortOrder == "ZA"
-              // Сортируем данные в порядке Z-A
+              // Sorting the data in the order Z-A
               sortedUsers = users.sort((a, b) =>
                 a.username > b.username ? -1 : 1
               );
-              // Устанавливаем оформление активной и пассивной кнопок для управления режимом сортировки данных
+              // We set the design of the active and passive buttons to control the data sorting mode
               document.getElementById("za-sort").style.background =
-                "lightskyblue"; // активная кнопка
-              document.getElementById("az-sort").style.background = "white"; // пассивная кнопка
+                "lightskyblue"; // active button
+              document.getElementById("az-sort").style.background = "white"; // passive button
             }
-            // Добавляем открывающий тег таблицы и строку для заголовка колонок таблицы
+            // We add the opening tag of the table and a row for the header of the columns of the table
             let htmlTable = `<table border = "0">
                                   <tr>
-                                    <th>id</th>
-                                    <th>name</th>
-                                    <th>username</th>
-                                    <th>email</th>
-                                    <th>address</th>
-                                    <th>phone</th>
-                                    <th>website</th>
-                                    <th>company</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>E-mail</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Website</th>
+                                    <th>Company</th>
                                   </tr>`;
-            // Добавляем строки с данными таблицы
+            // Adding rows with table data
             sortedUsers.forEach((user) => {
               htmlTable += `<tr>
                                     <td>${user.id}</td>
@@ -110,12 +110,12 @@
                                   </tr>`;
               console.log(user);
             });
-            // Добавляем закрывающий тег таблицы
+            // Adding the closing tag of the table
             htmlTable += "</table>";
-            // Вставляем html-код таблицы в контейнер
+            // Inserting the html code of the table into the container
             document.getElementById("container").innerHTML = htmlTable;
           } else {
-            // Если произошла ошибка выводим то, что было получено
+            // If an error occurred, we output what was received
             console.error(users);
           }
         };
