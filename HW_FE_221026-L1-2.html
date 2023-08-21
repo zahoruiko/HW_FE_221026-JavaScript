@@ -4,48 +4,48 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Level 1. Task 2</title>
     <script>
       // Level 1. Task 2
-      //  Адрес фида данных
+      //  Data feed address
       let requestURL = "https://jsonplaceholder.typicode.com/posts";
-      // Создаем объект обработчика запросов
+      // Creating a request handler object
       xhr = new XMLHttpRequest();
-      // Открываем страницу данных
+      // Opening the data page
       xhr.open("GET", requestURL, true);
-      // По результу считывания данных начинаем их обработку
+      // According to the result of reading the data, we begin processing them
       xhr.onload = function () {
-        // Преобразовываем полученные данные из JSON в подходящий для обработки вид (массив объектов)
+        // Converting the received data from JSON into a form suitable for processing (an array of objects)
         var posts = JSON.parse(xhr.responseText);
-        // Если удалось получить необходимые данные, то производим их обработку
+        // If it was possible to get the necessary data, then we process them
         if (xhr.readyState == 4 && xhr.status == "200") {
-          // Преобразовываем массив объектов сообщений в массив идентификаторов пользователя
+          // Converting an array of message objects into an array of user IDs
           let data = posts.map((post) => post.userId);
-          // Объявляем Map (ассоциативный массив) для сохранения результатов
+          // Declaring a Map (associative array) to save the results
           let post_count = new Map();
-          // Объявляем переменную вне цикла, чтобы не объявлять ее на каждой итерации внутри него
+          // Declaring a variable outside the loop, so as not to declare it at each iteration inside it
           let itemAmountInMap;
-          // Производим подсчет повторений
+          // We count repetitions
           data.forEach(function (item, index, arr) {
-            // Запрашиваем в количество повторений элемента в post_count
+            // Requesting in the number of repetitions of the element in post_count
             itemAmountInMap = post_count.get(item);
-            // Если entry с таким ключем уже есть
+            // If there is already an entry with such a key
             if (itemAmountInMap != undefined) {
-              // значит увеличиваем значение для этого ключа
+              // so we increase the value for this key
               post_count.set(item, ++itemAmountInMap);
             } else {
-              // Если entry с таким ключем еще нет, тогда добавляем 
+              // If there is no entry with such a key yet, then add
               post_count.set(item, 1);
             }
           });
-          console.log("Количества постов пользователей = ", post_count);
+          console.log("Number of user posts = ", post_count);
         } else {
-          // Если произошла ошибка выводим то, что было получено
+          // If an error occurred, we output what was received
           console.error(posts);
         }
       };
       xhr.send(null);
     </script>
   </head>
-  <body></body>
+  <body>See results in the console</body>
 </html>
